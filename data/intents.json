@@ -1,0 +1,176 @@
+{
+  "intents": [
+    {
+      "tag": "salam",
+      "patterns": [
+        "halo",
+        "hai",
+        "selamat pagi",
+        "selamat siang",
+        "selamat malam",
+        "permisi",
+        "halo admin"
+      ],
+      "responses": [
+        "Halo! Selamat datang di penginapan kami 😊",
+        "Hai! Ada yang bisa kami bantu?",
+        "Selamat datang, silakan tanyakan informasi penginapan."
+      ]
+    },
+    {
+      "tag": "harga_kamar",
+      "patterns": [
+        "berapa harga kamar",
+        "harga kamar per malam",
+        "tarif menginap",
+        "biaya sewa kamar",
+        "harga kamar termurah",
+        "harga kamar hari ini"
+      ],
+      "responses": [
+        "Harga kamar mulai dari Rp250.000 per malam.",
+        "Tarif kamar kami bervariasi tergantung jenis kamar."
+      ]
+    },
+    {
+      "tag": "jenis_kamar",
+      "patterns": [
+        "jenis kamar apa saja",
+        "ada kamar apa",
+        "pilihan kamar",
+        "tipe kamar yang tersedia",
+        "kamar tersedia apa saja"
+      ],
+      "responses": [
+        "Kami menyediakan kamar Standard, Deluxe, dan Family.",
+        "Tersedia beberapa tipe kamar sesuai kebutuhan Anda."
+      ]
+    },
+    {
+      "tag": "fasilitas",
+      "patterns": [
+        "fasilitas apa saja",
+        "apa saja fasilitas penginapan",
+        "apakah ada wifi",
+        "fasilitas kamar",
+        "layanan yang tersedia"
+      ],
+      "responses": [
+        "Fasilitas kami meliputi WiFi, AC, TV, dan parkir gratis.",
+        "Kami menyediakan fasilitas lengkap untuk kenyamanan Anda."
+      ]
+    },
+    {
+      "tag": "checkin",
+      "patterns": [
+        "jam check in",
+        "check in jam berapa",
+        "waktu masuk kamar",
+        "jam masuk penginapan"
+      ],
+      "responses": [
+        "Jam check-in dimulai pukul 14.00 WIB.",
+        "Anda dapat check-in mulai pukul 14.00."
+      ]
+    },
+    {
+      "tag": "checkout",
+      "patterns": [
+        "jam check out",
+        "check out jam berapa",
+        "waktu keluar kamar",
+        "jam keluar penginapan"
+      ],
+      "responses": [
+        "Jam check-out maksimal pukul 12.00 WIB.",
+        "Silakan check-out sebelum pukul 12.00."
+      ]
+    },
+    {
+      "tag": "lokasi",
+      "patterns": [
+        "alamat penginapan",
+        "lokasi penginapan",
+        "penginapan dimana",
+        "letak penginapan",
+        "alamat hotel"
+      ],
+      "responses": [
+        "Penginapan kami berlokasi di pusat kota.",
+        "Lokasi kami sangat strategis dan mudah diakses."
+      ]
+    },
+    {
+      "tag": "reservasi",
+      "patterns": [
+        "cara booking kamar",
+        "cara reservasi",
+        "pesan kamar",
+        "booking penginapan",
+        "reservasi kamar"
+      ],
+      "responses": [
+        "Reservasi dapat dilakukan melalui WhatsApp atau datang langsung.",
+        "Kami siap membantu proses reservasi Anda."
+      ]
+    },
+    {
+      "tag": "kontak",
+      "patterns": [
+        "nomor admin",
+        "kontak penginapan",
+        "nomor telepon",
+        "hubungi admin",
+        "customer service"
+      ],
+      "responses": [
+        "Silakan hubungi admin di nomor 08xxxxxxxxxx.",
+        "Anda dapat menghubungi customer service kami melalui WhatsApp.",
+        "Admin kami siap membantu Anda."
+      ]
+    },
+    {
+      "tag": "aturan",
+      "patterns": [
+        "aturan penginapan",
+        "peraturan menginap",
+        "boleh bawa hewan",
+        "aturan kamar",
+        "kebijakan penginapan"
+      ],
+      "responses": [
+        "Penginapan kami tidak memperbolehkan membawa hewan peliharaan.",
+        "Mohon mematuhi peraturan selama menginap.",
+        "Aturan penginapan demi kenyamanan bersama."
+      ]
+    },
+    {
+      "tag": "terimakasih",
+      "patterns": [
+        "terima kasih",
+        "makasih",
+        "thanks",
+        "terimakasih banyak"
+      ],
+      "responses": [
+        "Sama-sama 😊",
+        "Terima kasih kembali!",
+        "Senang bisa membantu."
+      ]
+    },
+    {
+      "tag": "goodbye",
+      "patterns": [
+        "sampai jumpa",
+        "dadah",
+        "bye",
+        "selamat tinggal"
+      ],
+      "responses": [
+        "Sampai jumpa! Semoga harimu menyenangkan 😊",
+        "Terima kasih telah menghubungi kami.",
+        "Kami tunggu kedatangan Anda."
+      ]
+    }
+  ]
+}
