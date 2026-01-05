@@ -13,7 +13,9 @@ nltk.download('punkt')
 nltk.download('punkt_tab')
 nltk.download('stopwords')
 
-# Load model
+# ===============================
+# Load Model
+# ===============================
 with open("chatbot_model.pkl", "rb") as f:
     model, vectorizer, intents = pickle.load(f)
 
@@ -28,6 +30,9 @@ def preprocess_text(text):
     tokens = [stemmer.stem(t) for t in tokens]
     return " ".join(tokens)
 
+# ===============================
+# UI Streamlit
+# ===============================
 st.title("🤖 Chatbot Penginapan")
 st.write("Chatbot layanan pelanggan berbasis Machine Learning")
 
@@ -36,18 +41,35 @@ if "chat" not in st.session_state:
 
 user_input = st.text_input("Tulis pertanyaan:")
 
+THRESHOLD = 0.5  # batas confidence
+
 if st.button("Kirim") and user_input:
+    # Preprocessing
     clean = preprocess_text(user_input)
     vector = vectorizer.transform([clean])
-    intent = model.predict(vector)[0]
 
-    for i in intents["intents"]:
-        if i["tag"] == intent:
-            response = random.choice(i["responses"])
-            break
+    # Prediksi probabilitas
+    proba = model.predict_proba(vector)
+    max_proba = proba[0].max()
+    intent = model.classes_[proba[0].argmax()]
 
+    # Cek confidence
+    if max_proba < THRESHOLD:
+        response = "Maaf, saya belum memahami pertanyaan tersebut 🙏"
+    else:
+        response = "Maaf, terjadi kesalahan."
+        for i in intents["intents"]:
+            if i["tag"] == intent:
+                response = random.choice(i["responses"])
+                break
+
+    # Simpan chat
     st.session_state.chat.append(("Anda", user_input))
     st.session_state.chat.append(("Chatbot", response))
 
+# ===============================
+# Tampilkan Chat History
+# ===============================
 for sender, msg in st.session_state.chat:
     st.markdown(f"**{sender}:** {msg}")
+
