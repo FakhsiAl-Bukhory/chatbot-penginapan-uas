@@ -8,22 +8,15 @@ from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
 
-# ===============================
 # Download resource NLTK
-# ===============================
 nltk.download('punkt')
 nltk.download('punkt_tab')
 nltk.download('stopwords')
 
-# ===============================
-# Load Model
-# ===============================
+# Load model
 with open("chatbot_model.pkl", "rb") as f:
     model, vectorizer, intents = pickle.load(f)
 
-# ===============================
-# Preprocessing Setup
-# ===============================
 stop_words = set(stopwords.words("indonesian"))
 stemmer = StemmerFactory().create_stemmer()
 
@@ -35,9 +28,6 @@ def preprocess_text(text):
     tokens = [stemmer.stem(t) for t in tokens]
     return " ".join(tokens)
 
-# ===============================
-# Streamlit UI
-# ===============================
 st.title("🤖 Chatbot Penginapan")
 st.write("Chatbot layanan pelanggan berbasis Machine Learning")
 
@@ -46,34 +36,18 @@ if "chat" not in st.session_state:
 
 user_input = st.text_input("Tulis pertanyaan:")
 
-THRESHOLD = 0.25  # threshold realistis untuk Naive Bayes
-
 if st.button("Kirim") and user_input:
-    # Preprocessing input
-    clean_input = preprocess_text(user_input)
-    vector_input = vectorizer.transform([clean_input])
+    clean = preprocess_text(user_input)
+    vector = vectorizer.transform([clean])
+    intent = model.predict(vector)[0]
 
-    # Prediksi probabilitas
-    proba = model.predict_proba(vector_input)
-    max_proba = proba[0].max()
-    intent = model.classes_[proba[0].argmax()]
+    for i in intents["intents"]:
+        if i["tag"] == intent:
+            response = random.choice(i["responses"])
+            break
 
-    # Tentukan response
-    if max_proba < THRESHOLD:
-        response = "Maaf, saya belum memahami pertanyaan tersebut 🙏"
-    else:
-        response = "Maaf, terjadi kesalahan."
-        for i in intents["intents"]:
-            if i["tag"] == intent:
-                response = random.choice(i["responses"])
-                break
-
-    # Simpan chat history
     st.session_state.chat.append(("Anda", user_input))
     st.session_state.chat.append(("Chatbot", response))
 
-# ===============================
-# Tampilkan Chat History
-# ===============================
 for sender, msg in st.session_state.chat:
     st.markdown(f"**{sender}:** {msg}")
