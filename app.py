@@ -8,7 +8,9 @@ from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
 
+# ===============================
 # Download resource NLTK
+# ===============================
 nltk.download('punkt')
 nltk.download('punkt_tab')
 nltk.download('stopwords')
@@ -19,6 +21,9 @@ nltk.download('stopwords')
 with open("chatbot_model.pkl", "rb") as f:
     model, vectorizer, intents = pickle.load(f)
 
+# ===============================
+# Preprocessing Setup
+# ===============================
 stop_words = set(stopwords.words("indonesian"))
 stemmer = StemmerFactory().create_stemmer()
 
@@ -31,7 +36,7 @@ def preprocess_text(text):
     return " ".join(tokens)
 
 # ===============================
-# UI Streamlit
+# Streamlit UI
 # ===============================
 st.title("🤖 Chatbot Penginapan")
 st.write("Chatbot layanan pelanggan berbasis Machine Learning")
@@ -41,19 +46,19 @@ if "chat" not in st.session_state:
 
 user_input = st.text_input("Tulis pertanyaan:")
 
-THRESHOLD = 0.5  # batas confidence
+THRESHOLD = 0.25  # threshold realistis untuk Naive Bayes
 
 if st.button("Kirim") and user_input:
-    # Preprocessing
-    clean = preprocess_text(user_input)
-    vector = vectorizer.transform([clean])
+    # Preprocessing input
+    clean_input = preprocess_text(user_input)
+    vector_input = vectorizer.transform([clean_input])
 
     # Prediksi probabilitas
-    proba = model.predict_proba(vector)
+    proba = model.predict_proba(vector_input)
     max_proba = proba[0].max()
     intent = model.classes_[proba[0].argmax()]
 
-    # Cek confidence
+    # Tentukan response
     if max_proba < THRESHOLD:
         response = "Maaf, saya belum memahami pertanyaan tersebut 🙏"
     else:
@@ -63,7 +68,7 @@ if st.button("Kirim") and user_input:
                 response = random.choice(i["responses"])
                 break
 
-    # Simpan chat
+    # Simpan chat history
     st.session_state.chat.append(("Anda", user_input))
     st.session_state.chat.append(("Chatbot", response))
 
@@ -72,4 +77,3 @@ if st.button("Kirim") and user_input:
 # ===============================
 for sender, msg in st.session_state.chat:
     st.markdown(f"**{sender}:** {msg}")
-
