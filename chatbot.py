@@ -7,9 +7,7 @@ from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
 
-# ===============================
-# Download resource NLTK
-# ===============================
+# Download resource (aman kalau sudah ada)
 nltk.download('punkt')
 nltk.download('punkt_tab')
 nltk.download('stopwords')
@@ -20,9 +18,6 @@ nltk.download('stopwords')
 with open("chatbot_model.pkl", "rb") as f:
     model, vectorizer, intents = pickle.load(f)
 
-# ===============================
-# Preprocessing Setup
-# ===============================
 stop_words = set(stopwords.words("indonesian"))
 stemmer = StemmerFactory().create_stemmer()
 
@@ -40,32 +35,18 @@ def preprocess_text(text):
 print("🤖 Chatbot Penginapan Siap Digunakan!")
 print("Ketik 'exit' untuk keluar.\n")
 
-THRESHOLD = 0.25  # batas confidence Naive Bayes
-
 while True:
     user_input = input("Anda: ")
-
     if user_input.lower() == "exit":
         print("Chatbot: Terima kasih! Sampai jumpa 😊")
         break
 
-    # Preprocessing
     clean_input = preprocess_text(user_input)
     vector_input = vectorizer.transform([clean_input])
+    intent = model.predict(vector_input)[0]
 
-    # Prediksi probabilitas
-    proba = model.predict_proba(vector_input)
-    max_proba = proba[0].max()
-    intent = model.classes_[proba[0].argmax()]
-
-    # Tentukan response
-    if max_proba < THRESHOLD:
-        response = "Maaf, saya belum memahami pertanyaan tersebut 🙏"
-    else:
-        response = "Maaf, terjadi kesalahan."
-        for i in intents["intents"]:
-            if i["tag"] == intent:
-                response = random.choice(i["responses"])
-                break
-
-    print("Chatbot:", response)
+    for i in intents["intents"]:
+        if i["tag"] == intent:
+            response = random.choice(i["responses"])
+            print("Chatbot:", response)
+            break
